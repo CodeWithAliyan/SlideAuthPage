@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SlideAuth - Premium Authentication</title>
+    <link rel="icon" type="image/jpg" href="assets/favicon.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 1. Global Reset & Variables */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #3498db 0%, #8e44ad 100%);
+            --secondary-gradient: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --white: #ffffff;
+            --bg-soft: #f4f7f6;
+            --transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-soft);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        /* 2. Dynamic Background Shapes */
+        .background-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s infinite alternate;
+        }
+
+        .shape-1 {
+            width: 400px;
+            height: 400px;
+            background: #3498db;
+            top: -100px;
+            left: -100px;
+        }
+
+        .shape-2 {
+            width: 500px;
+            height: 500px;
+            background: #8e44ad;
+            bottom: -150px;
+            right: -100px;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 100px) scale(1.1); }
+        }
+
+        /* 3. Main Container */
+        .container {
+            background-color: var(--white);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+            width: 850px;
+            max-width: 95vw;
+            min-height: 550px;
+            transition: var(--transition);
+        }
+
+        /* 4. Form Styling */
+        .form-container {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            transition: var(--transition);
+        }
+
+        .sign-in-container {
+            left: 0;
+            width: 50%;
+            z-index: 2;
+        }
+
+        .sign-up-container {
+            left: 0;
+            width: 50%;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        form {
+            background-color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 45px;
+            height: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            font-weight: 800;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        /* 5. Inputs & Buttons */
+        input {
+            background-color: #f0f2f5;
+            border: 2px solid transparent;
+            padding: 14px 18px;
+            margin: 8px 0;
+            width: 100%;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            background-color: #fff;
+            border-color: #3498db;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1);
+        }
+
+        button {
+            border-radius: 12px;
+            border: none;
+            background: var(--primary-gradient);
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 14px 45px;
+            margin-top: 15px;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 10px 20px -5px rgba(142, 68, 173, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px -5px rgba(142, 68, 173, 0.5);
+        }
+
+        button:active { transform: scale(0.96); }
+
+        button.ghost {
+            background: transparent;
+            border: 2px solid #ffffff;
+            box-shadow: none;
+        }
+
+        button.ghost:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* 6. Social Container */
+        .social-container {
+            margin: 15px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .social-container a {
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 8px;
+            height: 45px;
+            width: 45px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-container a:hover {
+            background: #f8f9fa;
+            border-color: #3498db;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .social-container svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--text-dark);
+            transition: fill 0.3s ease;
+        }
+
+        .social-container a:hover svg {
+            fill: #3498db;
+        }
+
+        /* 7. Overlay Section */
+        .overlay-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            transition: var(--transition);
+            z-index: 100;
+        }
+
+        .overlay {
+            background: var(--primary-gradient);
+            background-repeat: no-repeat;
+            background-size: cover;
+            color: #ffffff;
+            position: relative;
+            left: -100%;
+            height: 100%;
+            width: 200%;
+            transform: translateX(0);
+            transition: var(--transition);
+        }
+
+        .overlay-panel {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 40px;
+            text-align: center;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            transform: translateX(0);
+            transition: var(--transition);
+        }
+
+        .overlay-left { transform: translateX(-20%); }
+        .overlay-right { right: 0; transform: translateX(0); }
+
+        .overlay h1 { color: #fff; }
+        .overlay p { color: rgba(255,255,255,0.8); }
+
+        /* 8. Animations: Right Panel Active */
+        .container.right-panel-active .sign-in-container { transform: translateX(100%); opacity: 0; }
+        .container.right-panel-active .sign-up-container { transform: translateX(100%); opacity: 1; z-index: 5; animation: show 0.6s; }
+        .container.right-panel-active .overlay-container { transform: translateX(-100%); }
+        .container.right-panel-active .overlay { transform: translateX(50%); }
+        .container.right-panel-active .overlay-left { transform: translateX(0); }
+        .container.right-panel-active .overlay-right { transform: translateX(20%); }
+
+        @keyframes show {
+            0%, 49.99% { opacity: 0; z-index: 1; }
+            50%, 100% { opacity: 1; z-index: 5; }
+        }
+
+        /* 9. Toast Notification */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .toast {
+            background: #fff;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            border-left: 5px solid #3498db;
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .toast.show { transform: translateX(0); }
+        .toast.success { border-left-color: #2ecc71; }
+        .toast.error { border-left-color: #e74c3c; }
+
+        /* 10. Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                width: 400px;
+                min-height: 600px;
+            }
+
+            .overlay-container { display: none; }
+            
+            .form-container {
+                width: 100% !important;
+                padding: 0;
+            }
+
+            .sign-up-container {
+                transform: translateX(100%);
+            }
+
+            .container.right-panel-active .sign-up-container {
+                transform: translateX(0);
+            }
+
+            .container.right-panel-active .sign-in-container {
+                transform: translateX(-100%);
+            }
+
+            .mobile-toggle {
+                display: block !important;
+                margin-top: 20px;
+                background: transparent;
+                color: var(--text-dark);
+                border: 1px solid #ddd;
+                box-shadow: none;
+                padding: 10px 20px;
+            }
+        }
+
+        .mobile-toggle { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <form id="signUpForm">
+                <h1>Create Account</h1>
+                <div class="social-container">
+                    <a href="#" title="Sign up with Facebook">
+                        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </a>
+                    <a href="#" title="Sign up with Instagram">
+                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.981 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                    </a>
+                    <a href="#" title="Sign up with GitHub">
+                        <svg viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+                </div>
+                <span>or use your email for registration</span>
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">Sign Up</button>
+                <button type="button" class="mobile-toggle" onclick="togglePanel(false)">Already have an account? Sign In</button>
+            </form>
+        </div>
+
+        <div class="form-container sign-in-container">
+            <form id="signInForm">
+                <h1>Sign In</h1>
+                <div class="social-container">
+                    <a href="#" title="Sign in with Facebook">
+                        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </a>
+                    <a href="#" title="Sign in with Instagram">
+                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.981 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                    </a>
+                    <a href="#" title="Sign in with GitHub">
+                        <svg viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+                </div>
+                <span>or use your account</span>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <a href="#" style="font-size: 12px; color: var(--text-light); text-decoration: none; margin-top: 5px;">Forgot your password?</a>
+                <button type="submit">Sign In</button>
+                <button type="button" class="mobile-toggle" onclick="togglePanel(true)">New here? Create Account</button>
+            </form>
+        </div>
+
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Welcome Back!</h1>
+                    <p>Experience the most secure and elegant authentication system ever built.</p>
+                    <button class="ghost" id="signIn" onclick="togglePanel(false)">Sign In</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Enter your personal details and start your premium journey with us today.</p>
+                    <button class="ghost" id="signUp" onclick="togglePanel(true)">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('container');
+        const signInForm = document.getElementById('signInForm');
+        const signUpForm = document.getElementById('signUpForm');
+
+        // Toggle Function for sliding
+        function togglePanel(isSignUp) {
+            if (isSignUp) {
+                container.classList.add("right-panel-active");
+            } else {
+                container.classList.remove("right-panel-active");
+            }
+        }
+
+        // Toast Helper
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerText = message;
+            
+            container.appendChild(toast);
+            
+            // Trigger animation
+            setTimeout(() => toast.classList.add('show'), 100);
+            
+            // Remove toast
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
+        }
+
+        // Form Submission Logic
+        signInForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerHTML = "Authenticating...";
+            
+            setTimeout(() => {
+                showToast("Welcome back! Login successful.");
+                btn.innerHTML = "Sign In";
+                e.target.reset();
+            }, 1500);
+        });
+
+        signUpForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerHTML = "Creating...";
+            
+            setTimeout(() => {
+                showToast("Account created! Please sign in.", "success");
+                btn.innerHTML = "Sign Up";
+                e.target.reset();
+                togglePanel(false);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
