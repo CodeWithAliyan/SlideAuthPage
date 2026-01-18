@@ -1,30 +1,49 @@
+# 🎉 SlideAuthPage
 
-# SlideAuthPage
-A fully responsive, modern login and signup page with slide animation and social login icons
+**Modern Login & Signup Page with Smooth Slide Animation**  
 
-# SlideAuthPage 🚀
-
-A **modern, responsive login & signup page** with smooth slide animation, interactive social login icons (Facebook, Instagram, Google), and stylish toast notifications.
-
----
-
-## ✨ Features
-- Smooth **Sign In / Sign Up slide animation**
-- Fully **responsive design** for desktop, tablet, and mobile
-- Interactive **social login icons** with hover effects
-- Stylish **toast notifications** for success/error messages
-- Clean, modern, and **client-friendly design**
+[![GitHub Stars](https://img.shields.io/github/stars/CodeWithAliyan/SlideAuthPage?style=flat&logo=github&color=ffcb2f)](https://github.com/CodeWithAliyan/SlideAuthPage/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/CodeWithAliyan/SlideAuthPage?style=flat&logo=github&color=28a745)](https://github.com/CodeWithAliyan/SlideAuthPage/fork)
+[![GitHub License](https://img.shields.io/github/license/CodeWithAliyan/SlideAuthPage?style=flat&color=ff6b6b)](LICENSE)
 
 ---
 
-## 🛠 Technologies Used
-- **HTML5**
-- **CSS3** (Flexbox, Media Queries, Gradient backgrounds)
-- **JavaScript** 
-- **Google Fonts**:
+## ✨ About
+
+SlideAuthPage is a **fully responsive**, **modern authentication interface** featuring a seamless **slide animation** that toggles between **login** and **signup** forms.  
+
+Built with clean HTML, CSS, and JS, it’s **lightweight**, **easy to integrate**, and perfect for any project that needs a **professional, user-friendly login system**.  
+
 ---
 
-## 🚀 How to Use
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/CodeWithAliyan/SlideAuthPage.git
+## 🎞 Preview
+
+![SlideAuthPage Preview](./docs/assets/favicon.jpg)  
+*(Replace with a GIF or full screenshot for live preview)*  
+
+---
+
+## 🔥 Features
+
+- Smooth **slide animation** between login & signup  
+- Fully **responsive** (desktop, tablet, mobile)  
+- **Social login icons** (Facebook, Instagram, Google) with hover effects  
+- Stylish **toast notifications** for success / error feedback  
+- Clean, **client-ready design**  
+- Lightweight & **easy to integrate**  
+
+---
+
+## 🚀 Live Demo
+
+Check it out in action:  
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-blue?style=for-the-badge)](https://codewithaliyan.github.io/SlideAuthPage/)  
+
+---
+
+## 🛠️ How to Use
+
+1. **Clone the repo**  
+```bash
+git clone https://github.com/CodeWithAliyan/SlideAuthPage.git
