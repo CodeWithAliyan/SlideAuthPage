@@ -18,8 +18,8 @@ Built with clean HTML, CSS, and JS, it’s **lightweight**, **easy to integrate*
 
 ## 🎞 Preview
 
-![SlideAuthPage Preview](./docs/assets/favicon.jpg)  
-*(Replace with a GIF or full screenshot for live preview)*  
+![Animated Preview](https://media.giphy.com/media/3o7TKtnuHOHHUjR38Y/giphy.gif)  
+*(Replace with your own GIF or animated character if desired)*  
 
 ---
 
